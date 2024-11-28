@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { removeFromePastes } from '../redux/pasteSlice';
 import toast from 'react-hot-toast';
 import { CiEdit } from 'react-icons/ci';
@@ -8,19 +8,20 @@ import { LuCopy } from 'react-icons/lu';
 import { FaShareSquare } from 'react-icons/fa';
 
 const Paste = () => {
+  const pastes = useSelector((state) => state.paste.pastes);
+  const dispatch = useDispatch();
+  const [searchTerm, setSearchTerm] = useState('');
 
-   const pastes = useSelector((state)=> state.paste.pastes);
-   const dispatch = useDispatch();
-   const [searchTerm, setSearchTerm] = useState('');
-   const filteredData = pastes.filter(
-    (paste) => paste.title.toLowerCase().includes(searchTerm.toLowerCase())
-   );
+  const filteredData = pastes.filter((paste) =>
+    paste.title.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
-   function handleDelete(pasteId) {
-      dispatch( removeFromePastes(pasteId));
-   }
+  function handleDelete(pasteId) {
+    dispatch(removeFromePastes(pasteId));
+    toast.success('Paste deleted successfully!');
+  }
 
-   function handleShare(paste) {
+  function handleShare(paste) {
     if (navigator.share) {
       navigator
         .share({
@@ -38,86 +39,85 @@ const Paste = () => {
       toast.error('Web Share API is not supported in your browser.');
     }
   }
+
   return (
-    <div  className="w-full p-4 text-white flex justify-center">
-       
-       <div className='w-full md:w-[85%]'>
-        <div className="searchbox flex justify-center">
-        <input 
-           className='mb-4 py-2 px-3 w-[80%] md:w-[50%] rounded-full bg-[#333333] focus:outline-none  '
-           type='search'
-           placeholder='search here'
-           value={searchTerm}
-           onChange={(e) => setSearchTerm(e.target.value)}
-        />
-        </div>
-        <div className='w-full gap-4 flex flex-evenly md:justify-start  '>
-          {
-            filteredData.length > 0 && 
-            filteredData.map(
-               (paste) => {
-                  return (
-                    <div className="card relative p-4 bg-[#333333] w-[18vw] h-[22vw] rounded-[3vw] overflow-hidden " key={paste?._id}>
-                        <div className="font-semibold text-[4vw] md:text-base ">
-                          { paste.title}
-                        </div>
-                        <div className="border border-[#777777] mt-2 mb-2"></div>
-                        <div className="mb-2 text-[3.5vw] md:text-sm" >
-                          {paste.content}
-                        </div>
-                        <div  className="footer absolute p-2 md:p-4 w-full bottom-0 left-0 bg-[#2477cb]">
-                          <div className='flex justify-between gap-3 md:gap-5'>
-                            <button className="text-white text-[4vw] md:text-[2vw]">
-                              <a href={`/?pasteID=${paste?._id}`}>
-                                {/* Edit */}
-                                <CiEdit />
-                              </a>
-                            </button>
-
-                            {/* <button className="text-black text-[4.5vw] md:text-[1.75vw]">
-                              <a href={`/pastes/${paste._id}`}> View</a> 
-                            </button> */}
-
-                            <button  
-                              onClick={() => handleDelete(paste?._id)}
-                               className="text-white text-[3.5vw] md:text-[1.75vw]"
-                            >
-                              {/* Delete */}
-                              <MdDeleteOutline />
-                            </button>
-
-                            <button onClick={() => {
-                                 navigator.clipboard.writeText(paste?.content)
-                                 toast.success("copied to clipboard");
-                                 className="text-white text-[5vw] md:text-[1.5vw]"
-                            }}>
-                              {/* Copy */}
-                              <LuCopy />
-                            </button>
-
-                            <button 
-                              onClick={() => handleShare(paste)}
-                              className="text-white text-[3vw] md:text-[1.4vw]" >
-                              {/* Share */}
-                              <FaShareSquare />
-                            </button>
-                        </div>
-                      </div>
-                        {/* <div>
-                          {paste.createdAt}
-                        </div> */}
-                      </div>
-                  )
-                }
-                 
-            )
-          }
-
+    <div className="w-full p-4 text-white flex justify-center">
+      <div className="w-full max-w-6xl">
+        {/* Search Box */}
+        <div className="searchbox flex justify-center mb-4">
+          <input
+            className="py-2 px-3 w-full sm:w-[80%] md:w-[60%] lg:w-[50%] rounded-full bg-[#333333] focus:outline-none"
+            type="search"
+            placeholder="Search here"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
         </div>
 
-    </div>
-    </div>
-  )
-}
+        {/* Paste Cards */}
+        <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          {filteredData.length > 0 &&
+            filteredData.map((paste) => (
+              <div
+                className="card relative p-4 bg-[#333333] rounded-lg overflow-hidden flex flex-col justify-between"
+                key={paste?._id}
+              >
+                {/* Title */}
+                <div className="font-semibold text-lg truncate mb-2">
+                  {paste.title}
+                </div>
 
-export default Paste
+                {/* Divider */}
+                <div className="border border-[#777777] my-2"></div>
+
+                {/* Content */}
+                <div className="text-sm md:text-base mb-4 overflow-hidden h-[10vw] md:h-[8vw]">
+                  <p className="overflow-y-auto">{paste.content}</p>
+                </div>
+
+                {/* Footer */}
+                <div className="footer p-2 bg-[#2477cb] rounded-lg flex justify-between items-center text-white">
+                  {/* Edit Button */}
+                  <a
+                    href={`/?pasteID=${paste?._id}`}
+                    className="flex items-center text-base md:text-lg"
+                  >
+                    <CiEdit />
+                  </a>
+
+                  {/* Delete Button */}
+                  <button
+                    onClick={() => handleDelete(paste?._id)}
+                    className="flex items-center text-base md:text-lg"
+                  >
+                    <MdDeleteOutline />
+                  </button>
+
+                  {/* Copy Button */}
+                  <button
+                    onClick={() => {
+                      navigator.clipboard.writeText(paste?.content);
+                      toast.success('Copied to clipboard');
+                    }}
+                    className="flex items-center text-base md:text-lg"
+                  >
+                    <LuCopy />
+                  </button>
+
+                  {/* Share Button */}
+                  <button
+                    onClick={() => handleShare(paste)}
+                    className="flex items-center text-base md:text-lg"
+                  >
+                    <FaShareSquare />
+                  </button>
+                </div>
+              </div>
+            ))}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Paste;
