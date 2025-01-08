@@ -15,11 +15,13 @@ const Home = () => {
   useEffect(() => {
     if(pasteId){
       const paste = allPastes.find((p) => p._id === pasteId);
-      setTitle(paste.title);
-      setvalue([paste.content]);
+      if(paste) {
+         setTitle(paste.title);
+         setvalue([paste.content]);
+      }
     }
       
-  }, [pasteId])
+  }, [pasteId, allPastes])
 
   function createPaste() {
     const paste = {

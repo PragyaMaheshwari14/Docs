@@ -78,12 +78,11 @@ const Paste = () => {
                 {/* Footer */}
                 <div className="footer p-2 bg-[#2477cb] rounded-lg flex justify-between items-center text-white">
                   {/* Edit Button */}
-                  <a
-                    href={`/?pasteID=${paste?._id}`}
-                    className="flex items-center text-base md:text-lg"
-                  >
+                 <button className="flex items-center text-base md:text-lg">
+                 <a href={`/?pasteId=${paste?._id}`}>
                     <CiEdit />
                   </a>
+                 </button>
 
                   {/* Delete Button */}
                   <button
