@@ -33,7 +33,7 @@ const Navbar = () => {
               }`
             }
           >
-            Paste
+           My Docs
           </NavLink> 
         </ul>
       </div>
