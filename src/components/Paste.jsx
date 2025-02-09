@@ -18,7 +18,7 @@ const Paste = () => {
 
   function handleDelete(pasteId) {
     dispatch(removeFromePastes(pasteId));
-    toast.success('Paste deleted successfully!');
+    toast.success('Docs deleted successfully!');
   }
 
   function handleShare(paste) {
