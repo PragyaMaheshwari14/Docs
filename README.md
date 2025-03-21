@@ -59,13 +59,6 @@ Ensure you have the following installed:
 - **Vite** - For fast build and development environment
 - **Tailwind CSS** *(if used)* - For styling
 
-## Contribution
-Contributions are welcome! Feel free to fork the repository and submit pull requests.
 
-## License
-This project is open-source and available under the [MIT License](LICENSE).
-
----
-Feel free to update the content as needed and replace placeholders with actual links or information!
 
 
