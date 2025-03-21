@@ -1,4 +1,4 @@
-# Docs - Your Easy Documentation Tool
+# Docs 
 
 ## Overview
 Docs is an advanced and intuitive documentation platform developed with React and Vite, offering seamless content management and collaboration. It allows users to easily create, update, copy, share, and edit documents anytime. Designed with a refined user experience, Docs optimizes workflow efficiency and facilitates structured documentation management.
